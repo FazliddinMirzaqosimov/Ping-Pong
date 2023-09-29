@@ -18,8 +18,8 @@ export const c = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 500;
 
-export const gamer1 = new Gamer(0, 0, gamer.width, gamer.height);
-export const gamer2 = new Gamer(
+export const gamer1 = new Gamer("gamer1",0, 0, gamer.width, gamer.height);
+export const gamer2 = new Gamer("gamer2",
   canvas.width - gamer.width,
   0,
   gamer.width,

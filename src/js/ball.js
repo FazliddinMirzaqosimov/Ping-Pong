@@ -1,3 +1,4 @@
+import game from "./canvas";
 import { c, canvas, gamer, gamer1, gamer2 } from "./data";
 import { randomIntFromRange } from "./utils";
 
@@ -23,22 +24,23 @@ function Ball(
   this.update = function () {
     this.velocity.x *= 1.0002;
 
-
-    console.log(gamer1.x + gamer1.velocity.x);
     if (this.x > canvas.width || this.x < 0) {
+      game.roundOver(this.x < 0 ? gamer2 : gamer1);
       this.x = x;
       this.y = y;
       this.velocity = {
         x: 0,
         y: 0,
       };
-
       setTimeout(() => {
         this.velocity = JSON.parse(JSON.stringify(velocity));
       }, 2000);
       return;
     }
-    if (this.y + this.radius > canvas.height || this.y < 0) {
+    if (
+      this.y + this.radius + this.velocity.y > canvas.height ||
+      this.y + this.velocity.y - this.radius < 0
+    ) {
       this.velocity.y = -this.velocity.y;
     }
     if (
@@ -53,12 +55,11 @@ function Ball(
       this.y + this.velocity.y < gamer1.y + gamer1.height + gamer1.velocity.y
     ) {
       this.velocity.x = Math.abs(this.velocity.x);
-    }else if (
-      this.x + this.velocity.x + this.radius > gamer2.x + gamer2.velocity.x &&
-      this.x + this.velocity.x + this.radius - (gamer2.x + gamer2.velocity.x) <
-        this.velocity.x + gamer2.velocity.x &&
-      this.y + this.velocity.y > gamer2.y + gamer2.velocity.y &&
-      this.y + this.velocity.y < gamer2.y + gamer2.height + gamer2.velocity.y
+    } else if (
+      this.x + this.radius > gamer2.x + gamer2.velocity.x &&
+      this.x < gamer2.x + gamer2.velocity.x &&
+      this.y > gamer2.y &&
+      this.y < gamer2.y + gamer2.height
     ) {
       this.velocity.x = -Math.abs(this.velocity.x);
     }

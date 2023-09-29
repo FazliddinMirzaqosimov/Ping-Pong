@@ -1,7 +1,7 @@
 import { c, canvas, gamer1, keyboards } from "./data";
 
 class Gamer {
-  constructor(x, y, width = 30, height = 200, color = "white") {
+  constructor(name,x, y, width = 30, height = 200, color = "white") {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -11,6 +11,8 @@ class Gamer {
       x: 0,
       y: 0,
     };
+    this.point = 0
+    this.name=name
   }
 
   update() {

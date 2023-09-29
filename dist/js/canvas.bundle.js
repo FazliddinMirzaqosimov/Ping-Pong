@@ -95,14 +95,16 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+/* harmony import */ var _canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./canvas */ "./src/js/canvas.js");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+
 
 
 
 function Ball(x, y, radius, color) {
   var velocity = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {
-    x: Math.random() < 0.5 ? _data__WEBPACK_IMPORTED_MODULE_0__["gamer"].speed.x + Math.random() : -_data__WEBPACK_IMPORTED_MODULE_0__["gamer"].speed.x - Math.random(),
+    x: Math.random() < 0.5 ? _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x + Math.random() : -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x - Math.random(),
     y: Math.random() * 4 - 2
   };
   this.x = x;
@@ -115,9 +117,9 @@ function Ball(x, y, radius, color) {
     var _this = this;
 
     this.velocity.x *= 1.0002;
-    console.log(_data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x);
 
-    if (this.x > _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width || this.x < 0) {
+    if (this.x > _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].width || this.x < 0) {
+      _canvas__WEBPACK_IMPORTED_MODULE_0__["default"].roundOver(this.x < 0 ? _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"] : _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"]);
       this.x = x;
       this.y = y;
       this.velocity = {
@@ -130,13 +132,13 @@ function Ball(x, y, radius, color) {
       return;
     }
 
-    if (this.y + this.radius > _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].height || this.y < 0) {
+    if (this.y + this.radius + this.velocity.y > _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].height || this.y + this.velocity.y - this.radius < 0) {
       this.velocity.y = -this.velocity.y;
     }
 
-    if (this.x + this.velocity.x - this.radius < _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].width && _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].width - (this.x + this.velocity.x - this.radius) < -this.velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x && this.y + this.velocity.y > _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.y && this.y + this.velocity.y < _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].height + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.y) {
+    if (this.x + this.velocity.x - this.radius < _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].width && _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].width - (this.x + this.velocity.x - this.radius) < -this.velocity.x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x && this.y + this.velocity.y > _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].y + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y && this.y + this.velocity.y < _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].y + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].height + _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y) {
       this.velocity.x = Math.abs(this.velocity.x);
-    } else if (this.x + this.velocity.x + this.radius > _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.x && this.x + this.velocity.x + this.radius - (_data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.x) < this.velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.x && this.y + this.velocity.y > _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.y && this.y + this.velocity.y < _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].height + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.y) {
+    } else if (this.x + this.radius > _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x && this.x < _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].x + _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x && this.y > _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].y && this.y < _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].y + _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].height) {
       this.velocity.x = -Math.abs(this.velocity.x);
     }
 
@@ -146,15 +148,15 @@ function Ball(x, y, radius, color) {
   };
 
   this.draw = function () {
-    _data__WEBPACK_IMPORTED_MODULE_0__["c"].beginPath();
-    _data__WEBPACK_IMPORTED_MODULE_0__["c"].arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    _data__WEBPACK_IMPORTED_MODULE_0__["c"].fillStyle = this.color;
-    _data__WEBPACK_IMPORTED_MODULE_0__["c"].fill();
-    _data__WEBPACK_IMPORTED_MODULE_0__["c"].closePath();
+    _data__WEBPACK_IMPORTED_MODULE_1__["c"].beginPath();
+    _data__WEBPACK_IMPORTED_MODULE_1__["c"].arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    _data__WEBPACK_IMPORTED_MODULE_1__["c"].fillStyle = this.color;
+    _data__WEBPACK_IMPORTED_MODULE_1__["c"].fill();
+    _data__WEBPACK_IMPORTED_MODULE_1__["c"].closePath();
   };
 }
 
-var ball = new Ball(_data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width / 2, _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].height / 2, 10, "white");
+var ball = new Ball(_data__WEBPACK_IMPORTED_MODULE_1__["canvas"].width / 2, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].height / 2, 10, "white");
 /* harmony default export */ __webpack_exports__["default"] = (ball);
 
 /***/ }),
@@ -163,61 +165,16 @@ var ball = new Ball(_data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width / 2, _dat
 /*!**************************!*\
   !*** ./src/js/canvas.js ***!
   \**************************/
-/*! no exports provided */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ball__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ball */ "./src/js/ball.js");
-/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game */ "./src/js/game.js");
 
- // Animation Loop
-
-function animate() {
-  requestAnimationFrame(animate);
-  _data__WEBPACK_IMPORTED_MODULE_1__["c"].clearRect(0, 0, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].width, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].height);
-  _ball__WEBPACK_IMPORTED_MODULE_0__["default"].update(); // Move gamer1 in y directions
-
-  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyW")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
-  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyS")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
-  } else {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = 0;
-  } // Move gamer1 in x directions
-
-
-  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyA")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
-  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyD")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
-  } else {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = 0;
-  } // Move gamer2 in y directions
-
-
-  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyI")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
-  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyK")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
-  } else {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = 0;
-  } // Move gamer2 in x directions
-
-
-  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyJ")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
-  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyL")) {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
-  } else {
-    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = 0;
-  }
-
-  _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].update();
-  _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].update();
-}
-
-animate();
+var game = new _game__WEBPACK_IMPORTED_MODULE_0__["default"]();
+game.start();
+/* harmony default export */ __webpack_exports__["default"] = (game);
 
 /***/ }),
 
@@ -256,8 +213,8 @@ var canvas = document.querySelector("canvas");
 var c = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 500;
-var gamer1 = new _gamer__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0, gamer.width, gamer.height);
-var gamer2 = new _gamer__WEBPACK_IMPORTED_MODULE_0__["default"](canvas.width - gamer.width, 0, gamer.width, gamer.height); // Event Listeners
+var gamer1 = new _gamer__WEBPACK_IMPORTED_MODULE_0__["default"]("gamer1", 0, 0, gamer.width, gamer.height);
+var gamer2 = new _gamer__WEBPACK_IMPORTED_MODULE_0__["default"]("gamer2", canvas.width - gamer.width, 0, gamer.width, gamer.height); // Event Listeners
 
 addEventListener("mousemove", function (event) {
   mouse.x = event.clientX;
@@ -271,6 +228,76 @@ addEventListener("keypress", function (event) {
 addEventListener("keyup", function (event) {
   keyboards["delete"](event.code);
 });
+
+/***/ }),
+
+/***/ "./src/js/game.js":
+/*!************************!*\
+  !*** ./src/js/game.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Game; });
+/* harmony import */ var _ball__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ball */ "./src/js/ball.js");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
+
+
+function Game() {
+  var _this = this;
+
+  this.start = function () {
+    requestAnimationFrame(_this.start);
+    _data__WEBPACK_IMPORTED_MODULE_1__["c"].clearRect(0, 0, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].width, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].height); // Move gamer1 in y directions
+
+    if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyW")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+    } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyS")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+    } else {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = 0;
+    } // Move gamer1 in x directions
+
+
+    if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyA")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+    } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyD")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+    } else {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = 0;
+    } // Move gamer2 in y directions
+
+
+    if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyI")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+    } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyK")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+    } else {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = 0;
+    } // Move gamer2 in x directions
+
+
+    if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyJ")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+    } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyL")) {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+    } else {
+      _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = 0;
+    }
+
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].update();
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].update();
+    _ball__WEBPACK_IMPORTED_MODULE_0__["default"].update();
+  };
+
+  this.roundOver = function (winner) {
+    winner.point++;
+    var winnerEl = document.getElementById(winner.name);
+    winnerEl.textContent = winner.point;
+  };
+}
 
 /***/ }),
 
@@ -293,10 +320,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var Gamer = /*#__PURE__*/function () {
-  function Gamer(x, y) {
-    var width = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 30;
-    var height = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 200;
-    var color = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "white";
+  function Gamer(name, x, y) {
+    var width = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 30;
+    var height = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 200;
+    var color = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : "white";
 
     _classCallCheck(this, Gamer);
 
@@ -309,6 +336,8 @@ var Gamer = /*#__PURE__*/function () {
       x: 0,
       y: 0
     };
+    this.point = 0;
+    this.name = name;
   }
 
   _createClass(Gamer, [{
