@@ -1,73 +1,50 @@
-import utils from './utils'
-
-const canvas = document.querySelector('canvas')
-const c = canvas.getContext('2d')
-
-canvas.width = innerWidth
-canvas.height = innerHeight
-
-const mouse = {
-  x: innerWidth / 2,
-  y: innerHeight / 2
-}
-
-const colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66']
-
-// Event Listeners
-addEventListener('mousemove', (event) => {
-  mouse.x = event.clientX
-  mouse.y = event.clientY
-})
-
-addEventListener('resize', () => {
-  canvas.width = innerWidth
-  canvas.height = innerHeight
-
-  init()
-})
-
-// Objects
-class Object {
-  constructor(x, y, radius, color) {
-    this.x = x
-    this.y = y
-    this.radius = radius
-    this.color = color
-  }
-
-  draw() {
-    c.beginPath()
-    c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
-    c.fillStyle = this.color
-    c.fill()
-    c.closePath()
-  }
-
-  update() {
-    this.draw()
-  }
-}
-
-// Implementation
-let objects
-function init() {
-  objects = []
-
-  for (let i = 0; i < 400; i++) {
-    // objects.push()
-  }
-}
+import ball from "./ball";
+import { c, canvas, gamer, gamer1, gamer2, keyboards } from "./data";
 
 // Animation Loop
 function animate() {
-  requestAnimationFrame(animate)
-  c.clearRect(0, 0, canvas.width, canvas.height)
+  requestAnimationFrame(animate);
+  c.clearRect(0, 0, canvas.width, canvas.height);
+  ball.update();
 
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y)
-  // objects.forEach(object => {
-  //  object.update()
-  // })
+  // Move gamer1 in y directions
+  if (keyboards.has("KeyW")) {
+    gamer1.velocity.y = -gamer.speed.y;
+  } else if (keyboards.has("KeyS")) {
+    gamer1.velocity.y = gamer.speed.y;
+  } else {
+    gamer1.velocity.y = 0;
+  }
+
+   // Move gamer1 in x directions
+   if (keyboards.has("KeyA")) {
+    gamer1.velocity.x = -gamer.speed.x ;
+  } else if (keyboards.has("KeyD")) {
+    gamer1.velocity.x = gamer.speed.x ;
+  } else {
+    gamer1.velocity.x = 0;
+  }
+ 
+  // Move gamer2 in y directions
+  if (keyboards.has("KeyI")) {
+    gamer2.velocity.y = -gamer.speed.y;
+  } else if (keyboards.has("KeyK")) {
+    gamer2.velocity.y = gamer.speed.y;
+  } else {
+    gamer2.velocity.y = 0;
+  }
+
+     // Move gamer2 in x directions
+     if (keyboards.has("KeyJ")) {
+      gamer2.velocity.x = -gamer.speed.x;
+    } else if (keyboards.has("KeyL")) {
+      gamer2.velocity.x = gamer.speed.x;
+    } else {
+      gamer2.velocity.x = 0;
+    }
+
+  gamer1.update();
+  gamer2.update();
 }
 
-init()
-animate()
+animate();

@@ -86,6 +86,79 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/js/ball.js":
+/*!************************!*\
+  !*** ./src/js/ball.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
+
+
+
+function Ball(x, y, radius, color) {
+  var velocity = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {
+    x: Math.random() < 0.5 ? _data__WEBPACK_IMPORTED_MODULE_0__["gamer"].speed.x + Math.random() : -_data__WEBPACK_IMPORTED_MODULE_0__["gamer"].speed.x - Math.random(),
+    y: Math.random() * 4 - 2
+  };
+  this.x = x;
+  this.y = y;
+  this.radius = radius;
+  this.color = color;
+  this.velocity = JSON.parse(JSON.stringify(velocity));
+
+  this.update = function () {
+    var _this = this;
+
+    this.velocity.x *= 1.0002;
+    console.log(_data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x);
+
+    if (this.x > _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width || this.x < 0) {
+      this.x = x;
+      this.y = y;
+      this.velocity = {
+        x: 0,
+        y: 0
+      };
+      setTimeout(function () {
+        _this.velocity = JSON.parse(JSON.stringify(velocity));
+      }, 2000);
+      return;
+    }
+
+    if (this.y + this.radius > _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].height || this.y < 0) {
+      this.velocity.y = -this.velocity.y;
+    }
+
+    if (this.x + this.velocity.x - this.radius < _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].width && _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].width - (this.x + this.velocity.x - this.radius) < -this.velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.x && this.y + this.velocity.y > _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.y && this.y + this.velocity.y < _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].height + _data__WEBPACK_IMPORTED_MODULE_0__["gamer1"].velocity.y) {
+      this.velocity.x = Math.abs(this.velocity.x);
+    } else if (this.x + this.velocity.x + this.radius > _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.x && this.x + this.velocity.x + this.radius - (_data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.x) < this.velocity.x + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.x && this.y + this.velocity.y > _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.y && this.y + this.velocity.y < _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].y + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].height + _data__WEBPACK_IMPORTED_MODULE_0__["gamer2"].velocity.y) {
+      this.velocity.x = -Math.abs(this.velocity.x);
+    }
+
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+    this.draw();
+  };
+
+  this.draw = function () {
+    _data__WEBPACK_IMPORTED_MODULE_0__["c"].beginPath();
+    _data__WEBPACK_IMPORTED_MODULE_0__["c"].arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    _data__WEBPACK_IMPORTED_MODULE_0__["c"].fillStyle = this.color;
+    _data__WEBPACK_IMPORTED_MODULE_0__["c"].fill();
+    _data__WEBPACK_IMPORTED_MODULE_0__["c"].closePath();
+  };
+}
+
+var ball = new Ball(_data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width / 2, _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].height / 2, 10, "white");
+/* harmony default export */ __webpack_exports__["default"] = (ball);
+
+/***/ }),
+
 /***/ "./src/js/canvas.js":
 /*!**************************!*\
   !*** ./src/js/canvas.js ***!
@@ -95,8 +168,122 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_utils__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ball__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ball */ "./src/js/ball.js");
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
+
+ // Animation Loop
+
+function animate() {
+  requestAnimationFrame(animate);
+  _data__WEBPACK_IMPORTED_MODULE_1__["c"].clearRect(0, 0, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].width, _data__WEBPACK_IMPORTED_MODULE_1__["canvas"].height);
+  _ball__WEBPACK_IMPORTED_MODULE_0__["default"].update(); // Move gamer1 in y directions
+
+  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyW")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyS")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+  } else {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.y = 0;
+  } // Move gamer1 in x directions
+
+
+  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyA")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyD")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+  } else {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].velocity.x = 0;
+  } // Move gamer2 in y directions
+
+
+  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyI")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyK")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.y;
+  } else {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.y = 0;
+  } // Move gamer2 in x directions
+
+
+  if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyJ")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = -_data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+  } else if (_data__WEBPACK_IMPORTED_MODULE_1__["keyboards"].has("KeyL")) {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = _data__WEBPACK_IMPORTED_MODULE_1__["gamer"].speed.x;
+  } else {
+    _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].velocity.x = 0;
+  }
+
+  _data__WEBPACK_IMPORTED_MODULE_1__["gamer1"].update();
+  _data__WEBPACK_IMPORTED_MODULE_1__["gamer2"].update();
+}
+
+animate();
+
+/***/ }),
+
+/***/ "./src/js/data.js":
+/*!************************!*\
+  !*** ./src/js/data.js ***!
+  \************************/
+/*! exports provided: mouse, keyboards, gamer, canvas, c, gamer1, gamer2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mouse", function() { return mouse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "keyboards", function() { return keyboards; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gamer", function() { return gamer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "canvas", function() { return canvas; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return c; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gamer1", function() { return gamer1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "gamer2", function() { return gamer2; });
+/* harmony import */ var _gamer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gamer */ "./src/js/gamer.js");
+
+var mouse = {
+  x: innerWidth / 2,
+  y: innerHeight / 2
+};
+var keyboards = new Set();
+var gamer = {
+  height: 150,
+  width: 10,
+  speed: {
+    x: 2,
+    y: 3
+  }
+};
+var canvas = document.querySelector("canvas");
+var c = canvas.getContext("2d");
+canvas.width = 900;
+canvas.height = 500;
+var gamer1 = new _gamer__WEBPACK_IMPORTED_MODULE_0__["default"](0, 0, gamer.width, gamer.height);
+var gamer2 = new _gamer__WEBPACK_IMPORTED_MODULE_0__["default"](canvas.width - gamer.width, 0, gamer.width, gamer.height); // Event Listeners
+
+addEventListener("mousemove", function (event) {
+  mouse.x = event.clientX;
+  mouse.y = event.clientY;
+}); // Event Listeners
+
+addEventListener("keypress", function (event) {
+  keyboards.add(event.code);
+}); // Event Listeners
+
+addEventListener("keyup", function (event) {
+  keyboards["delete"](event.code);
+});
+
+/***/ }),
+
+/***/ "./src/js/gamer.js":
+/*!*************************!*\
+  !*** ./src/js/gamer.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -104,76 +291,55 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
-var canvas = document.querySelector('canvas');
-var c = canvas.getContext('2d');
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-var mouse = {
-  x: innerWidth / 2,
-  y: innerHeight / 2
-};
-var colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66']; // Event Listeners
 
-addEventListener('mousemove', function (event) {
-  mouse.x = event.clientX;
-  mouse.y = event.clientY;
-});
-addEventListener('resize', function () {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-  init();
-}); // Objects
+var Gamer = /*#__PURE__*/function () {
+  function Gamer(x, y) {
+    var width = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 30;
+    var height = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 200;
+    var color = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "white";
 
-var _Object = /*#__PURE__*/function () {
-  function Object(x, y, radius, color) {
-    _classCallCheck(this, Object);
+    _classCallCheck(this, Gamer);
 
     this.x = x;
     this.y = y;
-    this.radius = radius;
+    this.width = width;
+    this.height = height;
     this.color = color;
+    this.velocity = {
+      x: 0,
+      y: 0
+    };
   }
 
-  _createClass(Object, [{
-    key: "draw",
-    value: function draw() {
-      c.beginPath();
-      c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-      c.fillStyle = this.color;
-      c.fill();
-      c.closePath();
-    }
-  }, {
+  _createClass(Gamer, [{
     key: "update",
     value: function update() {
+      if (this.x + this.width + this.velocity.x < _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width / 3 && this.velocity.x + this.x > 0 || this.x + this.width + this.velocity.x < _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width && this.velocity.x + this.x > _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].width / 3 * 2) {
+        this.x += this.velocity.x;
+      }
+
+      if (this.y + this.velocity.y + this.height < _data__WEBPACK_IMPORTED_MODULE_0__["canvas"].height && this.y + this.velocity.y > 0) {
+        console.log(1);
+        this.y += this.velocity.y;
+      }
+
       this.draw();
+    }
+  }, {
+    key: "draw",
+    value: function draw() {
+      _data__WEBPACK_IMPORTED_MODULE_0__["c"].beginPath();
+      _data__WEBPACK_IMPORTED_MODULE_0__["c"].fillRect(this.x, this.y, this.width, this.height);
+      _data__WEBPACK_IMPORTED_MODULE_0__["c"].fillStyle = this.color;
+      _data__WEBPACK_IMPORTED_MODULE_0__["c"].fill();
+      _data__WEBPACK_IMPORTED_MODULE_0__["c"].closePath();
     }
   }]);
 
-  return Object;
-}(); // Implementation
+  return Gamer;
+}();
 
-
-var objects;
-
-function init() {
-  objects = [];
-
-  for (var i = 0; i < 400; i++) {// objects.push()
-  }
-} // Animation Loop
-
-
-function animate() {
-  requestAnimationFrame(animate);
-  c.clearRect(0, 0, canvas.width, canvas.height);
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y); // objects.forEach(object => {
-  //  object.update()
-  // })
-}
-
-init();
-animate();
+/* harmony default export */ __webpack_exports__["default"] = (Gamer);
 
 /***/ }),
 
@@ -181,9 +347,14 @@ animate();
 /*!*************************!*\
   !*** ./src/js/utils.js ***!
   \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: randomIntFromRange, randomColor, distance */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomIntFromRange", function() { return randomIntFromRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomColor", function() { return randomColor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
 function randomIntFromRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -198,11 +369,7 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
 }
 
-module.exports = {
-  randomIntFromRange: randomIntFromRange,
-  randomColor: randomColor,
-  distance: distance
-};
+
 
 /***/ })
 
